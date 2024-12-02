@@ -28,6 +28,7 @@ done
 sudo mysqldump -u root $USERNAME > "/home/$USERNAME/$USERNAME.sql"
 sudo zip -r "/home/$USERNAME.zip" "/home/$USERNAME"
 sudo rsync -avz --progress --rsh="ssh -p22 -i /root/.ssh/id_rsa" "/home/$USERNAME.zip" "$DESTINATION:/home/$TARGET"
+sudo unlink "/home/$USERNAME/$USERNAME.sql"
 sudo unlink "/home/$USERNAME.zip"
 echo "Backup complete"
 exit 1;
