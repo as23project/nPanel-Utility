@@ -25,10 +25,11 @@ while [ -n "$1" ] ; do
     shift
 done
 
-sudo mysqldump -u root $USERNAME > "/home/$USERNAME/$USERNAME.sql"
-sudo zip -r "/home/$USERNAME.zip" "/home/$USERNAME"
-sudo rsync -avz --progress --rsh="ssh -p22 -i /root/.ssh/id_rsa" "/home/$USERNAME.zip" "$DESTINATION:/home/$TARGET"
-sudo unlink "/home/$USERNAME/$USERNAME.sql"
-sudo unlink "/home/$USERNAME.zip"
-echo "Backup complete"
+sudo cd "/home/$USERNAME"
+sudo mysqldump -u root $USERNAME > "$USERNAME.sql"
+sudo zip -r "$USERNAME.zip" "$USERNAME.sql web"
+sudo rsync -avz --progress --rsh="ssh -p22 -i /root/.ssh/id_rsa" "$USERNAME.zip" "$DESTINATION:/home/$TARGET"
+sudo unlink "$USERNAME.sql"
+sudo unlink "$USERNAME.zip"
+echo "Migration complete"
 exit 1;
