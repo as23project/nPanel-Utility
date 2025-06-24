@@ -25,10 +25,22 @@ while [ -n "$1" ] ; do
     shift
 done
 
+echo "Dump MySQL Database"
+sleep 1s
 sudo mysqldump -u root $USERNAME > "/home/$USERNAME/$USERNAME.sql"
+
+echo "Compressed Home Directory"
+sleep 1s
 sudo zip -r "/home/$USERNAME.zip" "/home/$USERNAME"
+
+echo "Transfer to Destination Server"
+sleep 1s
 sudo rsync -avz --progress --rsh="ssh -p22 -i /root/.ssh/id_rsa" "/home/$USERNAME.zip" "$DESTINATION:/home/$TARGET"
+
+echo "Remove Temporary file"
+sleep 1s
 sudo unlink "/home/$USERNAME/$USERNAME.sql"
 sudo unlink "/home/$USERNAME.zip"
+
 echo "Migration complete"
 exit 1;
